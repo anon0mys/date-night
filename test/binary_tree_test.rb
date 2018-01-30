@@ -21,6 +21,10 @@ class TestBinarySearchTree < Minitest::Test
     tree.insert(16, "Johnny English")
     tree.insert(92, "Sharknado 3")
     tree.insert(50, "Hannibal Buress: Animal Furnace")
+    assert_equal 61, tree.root.key
+    assert_equal 16, tree.root.left.key
+    assert_equal 92, tree.root.right.key
+    assert_equal 50, tree.root.left.right.key
   end
 
 end

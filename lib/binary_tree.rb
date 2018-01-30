@@ -2,7 +2,7 @@ require 'pry'
 require './lib/node.rb'
 
 class BinarySearchTree
-  attr_reader :root, :height
+  attr_reader :root
 
   def initialize
     @root = nil
