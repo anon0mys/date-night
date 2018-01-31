@@ -2,6 +2,8 @@ require_relative 'test_helper.rb'
 require './lib/node.rb'
 require './lib/binary_tree.rb'
 
+SimpleCov.start
+
 class TestBinarySearchTree < Minitest::Test
 
   def setup
@@ -66,10 +68,9 @@ class TestBinarySearchTree < Minitest::Test
   end
 
   def test_tree_can_load_file
-    tree = BinarySearchTree.new
-    tree.load(movies.txt)
-    assert tree.include?()
-    assert tree.include?()
-    refute tree.include?()
+    @tree.load("./lib/movies.txt")
+    assert @tree.include?(15)
+    assert @tree.include?(36)
+    refute @tree.include?(101)
   end
 end

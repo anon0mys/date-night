@@ -1,6 +1,10 @@
-require_relative 'test_helper.rb'
+require 'minitest'
+require 'minitest/autorun'
+require 'minitest/pride'
+require 'simplecov'
 require './lib/node.rb'
 require 'pry'
+SimpleCov.start
 
 class TestNode < Minitest::Test
 

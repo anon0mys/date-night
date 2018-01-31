@@ -80,4 +80,25 @@ class BinarySearchTree
     sorted_array
   end
 
+  def load(filename)
+    file = File.open(filename, 'r')
+    movies_inserted = 0
+    read_lines(file).each do |movie_hash|
+      if !include?(movie_hash.keys.first)
+        insert(movie_hash.keys[0], movie_hash.values[0])
+        movies_inserted += 1
+      end
+    end
+    movies_inserted
+  end
+
+  def read_lines(file)
+    file.readlines.map do |line|
+      array = line.chomp.split(", ")
+      score = array.first.to_i
+      title = array[1..-1].join(", ")
+      {score => title}
+    end
+  end
+
 end
