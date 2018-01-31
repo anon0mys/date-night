@@ -29,5 +29,4 @@ class Node
       puts "Duplicate or invalid key"
     end
   end
-
 end
