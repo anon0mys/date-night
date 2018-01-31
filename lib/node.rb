@@ -10,23 +10,41 @@ class Node
     @right = nil
   end
 
-  def insert(key, value, depth = 1)
-    if key > @key
-      if @right == nil
-        @right = Node.new(key, value)
-        depth
-      else
-        @right.insert(key, value, depth += 1)
-      end
-    elsif key < @key
-      if @left == nil
-        @left = Node.new(key, value)
-        depth
-      else
-        @left.insert(key, value, depth += 1)
-      end
+  def insert(key, value)
+    if traverse(key) == "Duplicate"
+      "Duplicate or invalid key"
+    elsif traverse(key).nil?
+      create_node(key, value)
+      depth_of(key)
     else
-      puts "Duplicate or invalid key"
+      traverse(key).insert(key, value)
     end
   end
+
+  def traverse(key)
+    if key == @key
+      "Duplicate"
+    elsif key > @key
+      @right
+    elsif key < @key
+      @left
+    end
+  end
+
+  def create_node(key, value)
+    if key > @key
+      @right = Node.new(key, value)
+    elsif key < @key
+      @left = Node.new(key, value)
+    end
+  end
+
+  def depth_of(key, depth = 0)
+    # if traverse(key) == "Duplicate"
+    #   depth
+    # elsif traverse(key).nil?
+    # end
+  end
+
+
 end
