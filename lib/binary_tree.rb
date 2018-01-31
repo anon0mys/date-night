@@ -53,4 +53,31 @@ class BinarySearchTree
     end
   end
 
+  def max(node = @root)
+    if node.right.nil?
+      {"#{node.value}"=>node.key}
+    else
+      max(node.right)
+    end
+  end
+
+  def min(node = @root)
+    if node.left.nil?
+      {"#{node.value}"=>node.key}
+    else
+      min(node.left)
+    end
+  end
+
+  def sort(node = @root, sorted_array = [])
+    if !node.left.nil?
+      sort(node.left, sorted_array)
+    end
+    sorted_array.push({node.key => "#{node.value}"})
+    if !node.right.nil?
+      sort(node.right, sorted_array)
+    end
+    sorted_array
+  end
+
 end

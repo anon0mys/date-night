@@ -44,4 +44,32 @@ class TestBinarySearchTree < Minitest::Test
     assert_equal 1, @tree.depth_of(92)
     assert_equal 2, @tree.depth_of(50)
   end
+
+  def test_binary_tree_can_find_max
+    test_hash = {"Sharknado 3" => 92}
+    assert_equal test_hash, @tree.max
+  end
+
+  def test_binary_tree_can_find_min
+    test_hash = {"Johnny English" => 16}
+    assert_equal test_hash, @tree.min
+  end
+
+  def test_binary_tree_sorts_to_hash
+    test_array = [
+      {16 => "Johnny English"},
+      {50 => "Hannibal Buress: Animal Furnace"},
+      {61 => "Bill and Ted's Excellent Adventure"},
+      {92 => "Sharknado 3"}
+    ]
+    assert_equal test_array, @tree.sort
+  end
+
+  def test_tree_can_load_file
+    tree = BinarySearchTree.new
+    tree.load(movies.txt)
+    assert tree.include?()
+    assert tree.include?()
+    refute tree.include?()
+  end
 end
