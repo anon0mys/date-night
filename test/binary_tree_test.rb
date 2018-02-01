@@ -32,13 +32,6 @@ class TestBinarySearchTree < Minitest::Test
     assert_equal 50, @tree.root.left.right.key
   end
 
-  def test_binary_tree_wont_take_duplicates
-    skip
-    tree = BinarySearchTree.new
-    tree.insert(60, "root node")
-    assert_equal "Duplicate key", tree.insert(60, "test node")
-  end
-
   def test_tree_returns_depth_when_node_inserts
     tree = BinarySearchTree.new
     assert_equal 0, tree.insert(60, "root node")
@@ -113,4 +106,36 @@ class TestBinarySearchTree < Minitest::Test
     assert tree.include?(36)
     refute tree.include?(101)
   end
+
+  def test_tree_can_collect_nodes_at_depth
+    depth_1 = [@tree.root]
+    depth_2 = [@tree.root.left, @tree.root.right]
+    assert_equal depth_1, @tree.nodes_at_depth(0)
+    assert_equal depth_2, @tree.nodes_at_depth(1)
+  end
+
+  def test_tree_can_count_children
+    assert_equal 3, @tree.count_children
+    assert_equal 1, @tree.count_children(@tree.root.left)
+  end
+
+  def test_tree_can_count_all_nodes
+    assert_equal 4, @tree.count_all_nodes
+  end
+
+  def test_tree_can_determine_health
+    tree = BinarySearchTree.new
+    tree.insert(98, "Animals United")
+    tree.insert(58, "Armageddon")
+    tree.insert(36, "Bill & Ted's Bogus Journey")
+    tree.insert(93, "Bill & Ted's Excellent Adventure")
+    tree.insert(86, "Charlie's Angels")
+    tree.insert(38, "Charlie's Country")
+    tree.insert(69, "Collateral Damage")
+
+    assert_equal [[98, 7, 100]], tree.health(0)
+    assert_equal [[58, 6, 85]], tree.health(1)
+    assert_equal [[36, 2, 28], [93, 3, 42]], tree.health(2)
+  end
+
 end

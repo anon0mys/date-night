@@ -93,4 +93,50 @@ class BinarySearchTree
     title = line_array[1..-1].join(", ")
     {score => title}
   end
+
+  def nodes_at_depth(node = @root, node_array = [], depth)
+    if depth == depth_of(node.key)
+      node_array.push(node)
+    else
+      [node.left, node.right].compact.map do |branch|
+        nodes_at_depth(branch, node_array, depth)
+      end
+    end
+    node_array.flatten
+  end
+
+  def count_children(node = @root, count = [])
+    if @root.nil?
+      "There is no tree..."
+    else
+      [node.left, node.right].compact.each do |branch|
+        count << 1
+        count_children(branch, count)
+      end
+      count.sum
+    end
+  end
+
+  def count_all_nodes
+    count_children(@root) + 1
+  end
+
+  def health_percent(children)
+    percent = (children.to_f/count_all_nodes) * 100
+    percent.to_i
+  end
+
+  def health(depth)
+    health_array = []
+    nodes_at_depth(depth).each do |node|
+      children = count_children(node) + 1
+      node_health = [
+        node.key,
+        children,
+        health_percent(children)
+      ]
+      health_array.push(node_health)
+    end
+    health_array
+  end
 end
