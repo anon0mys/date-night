@@ -8,48 +8,28 @@ class BinarySearchTree
     @root = nil
   end
 
-  def insert(key, value, depth = 0)
+  def insert(key, value)
     if @root.nil?
       @root = Node.new(key, value)
+      @root.depth_of(key)
+    else
+      @root.insert(key, value)
+    end
+  end
+
+  def depth_of(key, depth = 0)
+    if key == @root.key
       depth
     else
-      @root.insert(key, value, depth += 1)
+      @root.depth_of(key)
     end
   end
 
   def include?(key, node = @root)
     if key == node.key
       true
-    elsif key > node.key
-      if node.right.nil?
-        false
-      else
-        include?(key, node.right)
-      end
-    elsif key < node.key
-      if node.left.nil?
-        false
-      else
-        include?(key, node.left)
-      end
-    end
-  end
-
-  def depth_of(key, node = @root, depth = 0)
-    if key == node.key
-      depth
-    elsif key > node.key
-      if node.right.nil?
-        depth
-      else
-        depth_of(key, node.right, depth += 1)
-      end
-    elsif key < node.key
-      if node.left.nil?
-        depth
-      else
-        depth_of(key, node.left, depth += 1)
-      end
+    else
+      @root.include?(key)
     end
   end
 
@@ -70,13 +50,9 @@ class BinarySearchTree
   end
 
   def sort(node = @root, sorted_array = [])
-    if !node.left.nil?
-      sort(node.left, sorted_array)
-    end
+    sort(node.left, sorted_array) if !node.left.nil?
     sorted_array.push({node.key => "#{node.value}"})
-    if !node.right.nil?
-      sort(node.right, sorted_array)
-    end
+    sort(node.right, sorted_array) if !node.right.nil?
     sorted_array
   end
 
@@ -94,11 +70,14 @@ class BinarySearchTree
 
   def read_lines(file)
     file.readlines.map do |line|
-      array = line.chomp.split(", ")
-      score = array.first.to_i
-      title = array[1..-1].join(", ")
-      {score => title}
+      transform_line(line)
     end
   end
 
+  def transform_line(line)
+    line_array = line.chomp.split(", ")
+    score = line_array.first.to_i
+    title = line_array[1..-1].join(", ")
+    {score => title}
+  end
 end

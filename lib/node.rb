@@ -11,17 +11,17 @@ class Node
   end
 
   def insert(key, value)
-    if traverse(key) == "Duplicate"
+    if choose_direction(key) == "Duplicate"
       "Duplicate or invalid key"
-    elsif traverse(key).nil?
+    elsif choose_direction(key).nil?
       create_node(key, value)
       depth_of(key)
     else
-      traverse(key).insert(key, value)
+      choose_direction(key).insert(key, value)
     end
   end
 
-  def traverse(key)
+  def choose_direction(key)
     if key == @key
       "Duplicate"
     elsif key > @key
@@ -40,11 +40,22 @@ class Node
   end
 
   def depth_of(key, depth = 0)
-    # if traverse(key) == "Duplicate"
-    #   depth
-    # elsif traverse(key).nil?
-    # end
+    if choose_direction(key) == "Duplicate"
+      depth
+    elsif !choose_direction(key).nil?
+      choose_direction(key).depth_of(key, depth += 1)
+    else
+      "Key does not exist"
+    end
   end
 
-
+  def include?(key)
+    if choose_direction(key) == "Duplicate"
+      true
+    elsif !choose_direction(key).nil?
+      choose_direction(key).include?(key)
+    else
+      false
+    end
+  end
 end
