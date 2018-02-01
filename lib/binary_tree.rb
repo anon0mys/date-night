@@ -139,4 +139,30 @@ class BinarySearchTree
     end
     health_array
   end
+
+  def leaves
+    if @root.nil?
+      "There is no tree..."
+    else
+      @root.leaves
+    end
+  end
+
+  def height(depth = 0)
+    if @root.nil?
+      "There is no tree..."
+    elsif branches_below?(depth)
+      height(depth += 1)
+    else
+      depth
+    end
+  end
+
+  def branches_below?(depth)
+    tree_level = nodes_at_depth(depth).map do |node|
+      node.left.nil? && node.right.nil?
+    end
+    tree_level.include?(false)
+  end
+
 end

@@ -47,4 +47,15 @@ class Node
       false
     end
   end
+
+  def leaves(count = [])
+    if @right.nil? && @left.nil?
+      count << 1
+    else
+      [@left, @right].compact.map do |branch|
+        branch.leaves(count)
+      end
+    end
+    count.sum
+  end
 end

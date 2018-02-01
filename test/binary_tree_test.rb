@@ -115,6 +115,8 @@ class TestBinarySearchTree < Minitest::Test
   end
 
   def test_tree_can_count_children
+    tree = BinarySearchTree.new
+    assert_equal "There is no tree...", tree.count_children
     assert_equal 3, @tree.count_children
     assert_equal 1, @tree.count_children(@tree.root.left)
   end
@@ -138,4 +140,18 @@ class TestBinarySearchTree < Minitest::Test
     assert_equal [[36, 2, 28], [93, 3, 42]], tree.health(2)
   end
 
+  def test_tree_can_count_leaves
+    tree = BinarySearchTree.new
+    assert_equal "There is no tree...", tree.leaves
+
+    tree.insert(58, "Armageddon")
+    tree.insert(36, "Bill & Ted's Bogus Journey")
+    tree.insert(93, "Bill & Ted's Excellent Adventure")
+
+    assert_equal 2, tree.leaves
+  end
+
+  def test_tree_determines_height
+    assert_equal 2, @tree.height
+  end
 end
