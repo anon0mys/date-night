@@ -1,10 +1,6 @@
-require 'minitest'
-require 'minitest/autorun'
-require 'minitest/pride'
-require 'simplecov'
+require_relative 'test_helper.rb'
 require './lib/node.rb'
 require 'pry'
-SimpleCov.start
 
 class TestNode < Minitest::Test
 
@@ -25,15 +21,6 @@ class TestNode < Minitest::Test
     node_1 = Node.new(60, "node 1")
     assert_equal "root node", root_node.value
     assert_equal "node 1", node_1.value
-  end
-
-  def test_node_returns_depth_of_new_nodes
-    root_node = Node.new(50, "root node")
-    root_node.insert(60, "node 1")
-    root_node.insert(70, "node 2")
-    assert_equal 0, root_node.depth_of(50)
-    assert_equal 1, root_node.depth_of(60)
-    assert_equal 2, root_node.depth_of(70)
   end
 
   def test_node_initializes_with_empty_branches

@@ -11,22 +11,27 @@ class BinarySearchTree
   def insert(key, value)
     if @root.nil?
       @root = Node.new(key, value)
-      @root.depth_of(key)
+      depth_of(key)
     else
       @root.insert(key, value)
+      depth_of(key)
     end
   end
 
-  def depth_of(key, depth = 0)
-    if key == @root.key
+  def depth_of(key, node = @root, depth = 0)
+    if node.choose_direction(key) == "Duplicate"
       depth
+    elsif !node.choose_direction(key).nil?
+      depth_of(key, node.choose_direction(key), depth += 1)
     else
-      @root.depth_of(key)
+      "Key does not exist"
     end
   end
 
   def include?(key, node = @root)
-    if key == node.key
+    if @root.nil?
+      false
+    elsif key == node.key
       true
     else
       @root.include?(key)
@@ -57,15 +62,23 @@ class BinarySearchTree
   end
 
   def load(filename)
-    file = File.open(filename, 'r')
+    file = open_file(filename)
     movies_inserted = 0
     read_lines(file).each do |movie_hash|
-      if !include?(movie_hash.keys.first)
+      if !include?(movie_hash.keys[0])
         insert(movie_hash.keys[0], movie_hash.values[0])
         movies_inserted += 1
       end
     end
     movies_inserted
+  end
+
+  def open_file(filename)
+    if File.exist?(filename)
+      File.open(filename, 'r')
+    else
+      "File does not exist"
+    end
   end
 
   def read_lines(file)

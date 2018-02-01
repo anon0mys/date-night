@@ -2,8 +2,6 @@ require_relative 'test_helper.rb'
 require './lib/node.rb'
 require './lib/binary_tree.rb'
 
-SimpleCov.start
-
 class TestBinarySearchTree < Minitest::Test
 
   def setup
@@ -32,6 +30,20 @@ class TestBinarySearchTree < Minitest::Test
     assert_equal 16, @tree.root.left.key
     assert_equal 92, @tree.root.right.key
     assert_equal 50, @tree.root.left.right.key
+  end
+
+  def test_binary_tree_wont_take_duplicates
+    skip
+    tree = BinarySearchTree.new
+    tree.insert(60, "root node")
+    assert_equal "Duplicate key", tree.insert(60, "test node")
+  end
+
+  def test_tree_returns_depth_when_node_inserts
+    tree = BinarySearchTree.new
+    assert_equal 0, tree.insert(60, "root node")
+    assert_equal 1, tree.insert(65, "level 1")
+    assert_equal 2, tree.insert(70, "level 2")
   end
 
   def test_binary_tree_include?
@@ -68,9 +80,37 @@ class TestBinarySearchTree < Minitest::Test
   end
 
   def test_tree_can_load_file
-    @tree.load("./lib/movies.txt")
-    assert @tree.include?(15)
-    assert @tree.include?(36)
-    refute @tree.include?(101)
+    tree = BinarySearchTree.new
+    assert_equal 99, tree.load("./lib/movies.txt")
+  end
+
+  def test_tree_transforms_lines
+    tree = BinarySearchTree.new
+    line_1 = "61, Bill and Ted's Excellent Adventure"
+    line_2 = "29, Like Sunday, Like Rain"
+    expected_1 = {61 => "Bill and Ted's Excellent Adventure"}
+    expected_2 = {29 => "Like Sunday, Like Rain"}
+    assert_equal expected_1, tree.transform_line(line_1)
+    assert_equal expected_2, tree.transform_line(line_2)
+  end
+
+  def test_tree_reads_lines
+    tree = BinarySearchTree.new
+    file = File.open("./lib/test.txt", 'r')
+    expected = [
+      {71 => "Hannibal Buress: Animal Furnace"},
+      {80 => "Hannibal Buress: Comedy Camisado"},
+      {17 => "Meet My Valentine"},
+      {55 => "Experimenter"}
+    ]
+    assert_equal expected, tree.read_lines(file)
+  end
+
+  def test_tree_load_method_places_nodes
+    tree = BinarySearchTree.new
+    tree.load("./lib/movies.txt")
+    assert tree.include?(15)
+    assert tree.include?(36)
+    refute tree.include?(101)
   end
 end
