@@ -40,6 +40,7 @@ class TestBinarySearchTree < Minitest::Test
   end
 
   def test_binary_tree_include?
+    assert @tree.include?(61)
     assert @tree.include?(16)
     refute @tree.include?(72)
     assert @tree.include?(50)
