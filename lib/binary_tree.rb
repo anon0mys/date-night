@@ -8,12 +8,12 @@ class BinarySearchTree
     @root = nil
   end
 
-  def insert(key, value)
+  def insert(key, value, node = @root)
     if @root.nil?
       @root = Node.new(key, value)
       depth_of(key)
     else
-      @root.insert(key, value)
+      insert(key, value, node)
       depth_of(key)
     end
   end
